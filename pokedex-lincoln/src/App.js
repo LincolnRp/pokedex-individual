@@ -48,14 +48,15 @@ function App() {
 
   }
 
+  const values = {
+    favoritePokemons: favorites,
+      updateFavoritePokemons: updateFavoritePokemons,
+  }
+
+
   return (
 
-    <Provider
-    value={{
-      favoritePokemons: favorites,
-      updateFavoritePokemons: updateFavoritePokemons,
-    }}
-  >
+    <Provider value={values}>
     <div className="App">
       <Navbar />
       <SearchBar />

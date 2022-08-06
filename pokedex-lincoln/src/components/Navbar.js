@@ -1,8 +1,11 @@
 import React, {useContext} from "react";
 import { Provider } from './../contexts/favoritesContext'
+import {GlobalContext} from './../contexts/favoritesContext'
 
 const Navbar = () => {
-  // useContext(favoritePokemons) 
+
+  const {favoritePokemons} = useContext(GlobalContext)
+
     const logoImg = 'https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png'
 
   return (
@@ -15,7 +18,7 @@ const Navbar = () => {
       ></img>
       </div>
       <div>
-        {/* {favoritePokemons.length} */}
+        {favoritePokemons.length}
         ❤️
       </div>
 
