@@ -1,14 +1,19 @@
-import React from "react";
+import React, {useContext} from "react";
+import {Provider, GlobalContext} from './../contexts/favoritesContext'
 
 const Pokemon = (props) => {
+
+  const {favoritePokemons, updateFavoritePokemons} = useContext(GlobalContext)
+
   const { pokemon } = props;
 
   const  onHeartClick = () =>{
-    console.log('fav')
+
+    updateFavoritePokemons(pokemon.name)
 
   }
 
-  const heart = '❤️'
+  const heart = favoritePokemons.includes(pokemon.name) ? '💛' : '❤️'
 
   return (
     <div className="pokemon-card">

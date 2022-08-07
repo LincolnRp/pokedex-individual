@@ -3,11 +3,13 @@ import Navbar from "./components/Navbar";
 import Pokedex from "./components/Pokedex";
 import SearchBar from "./components/SearchBar";
 import {Provider} from "./contexts/favoritesContext";
-import { getPokemons, getPokemonsData } from "./functions/api";
+import { getPokemons, getPokemonsData, searchPokemon } from "./functions/api";
 import style from "./style/App.css";
 
+const pokemonsLocal = 'undefined'
 function App() {
   const [loading, setLoading] = useState(false);
+  const [notFound, setNotFound] = useState(false);
   const [pokemons, setPokemons] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPage] = useState(0);
@@ -17,6 +19,7 @@ function App() {
   const fetchPokemons = async () => {
     try {
       setLoading(true);
+      setNotFound(false)
       const data = await getPokemons(itensPerPage, itensPerPage * page );
       const promises = data.results.map(async (pokemon) => {
         return await getPokemonsData(pokemon.url); 
@@ -30,8 +33,17 @@ function App() {
     }
   };
 
+  const loadFavoritePokemons = () =>{
+    const pokemonsfavs = JSON.parse(window.localStorage.getItem(pokemonsLocal)) || []
+    setFavorites(pokemonsfavs)
+
+  }
+
   useEffect(() => {
-    console.log("carregou");
+    loadFavoritePokemons();
+  }, []);
+
+  useEffect(() => {
     fetchPokemons();
   }, [page]);
 
@@ -39,11 +51,11 @@ function App() {
     const updateFavorites = [...favorites]
     const favoriteIndex = favorites.indexOf(name)
     if(favoriteIndex >= 0) {
-      updateFavorites.slice(favoriteIndex, 1)
+      updateFavorites.splice(favoriteIndex, 1)
     }else{
       updateFavorites.push(name)
     }
-
+    window.localStorage.setItem(pokemonsLocal, JSON.stringify(updateFavorites))
     setFavorites(updateFavorites)
 
   }
@@ -53,13 +65,34 @@ function App() {
       updateFavoritePokemons: updateFavoritePokemons,
   }
 
+  const onSearhHandler = async (pokemon) =>{
+    if(!pokemon){
+     return fetchPokemons()
+    }
+
+    setLoading(true)
+    setNotFound(false)
+    const result = await searchPokemon(pokemon)
+    if(!result){
+      
+    setLoading(false)
+    setNotFound(true)
+
+    }else {
+      setPokemons([result])
+      setPage(0)
+      setTotalPage(1)
+    }
+    setLoading(false)
+  }
 
   return (
 
     <Provider value={values}>
     <div className="App">
       <Navbar />
-      <SearchBar />
+      <SearchBar onSearh={onSearhHandler} />
+      {notFound ? (<div className="not-found-div">Sem Pokémons</div>) : 
       <Pokedex
         pokemons={pokemons}
         loading={loading}
@@ -67,7 +100,7 @@ function App() {
         totalPages={totalPages}
         setPage={setPage}
       />
-    </div> 
+    }</div>
      </Provider>
   );
 }
