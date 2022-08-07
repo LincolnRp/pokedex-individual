@@ -12,5 +12,6 @@ Tecnologias Utilizadas:
 - API
 - Estados
 - Tratamento de dados 
+- # Pokedex com API, React hooks, useState, useContext, localStorage
 
 ![Screenshot_1](https://user-images.githubusercontent.com/93271677/182055191-085714c0-405e-4834-97c7-57de1cc417e4.png)
