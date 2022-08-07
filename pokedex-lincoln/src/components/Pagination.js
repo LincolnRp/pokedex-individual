@@ -8,9 +8,9 @@ const {page, totalPages, onLeftClick, onRightClick} = props
 
 return(<div className="pagination-container">
 
-        <button onClick={onLeftClick}><div>⬅️</div></button>
-        <div> {page} de {totalPages}</div>
-        <button onClick={onRightClick}><div>➡️</div></button>
+        <button onClick={onLeftClick} className='button-left'><div>⬅️</div></button>
+        <div className="div-pagination"> {page} de {totalPages}</div>
+        <button onClick={onRightClick} className='button-right'><div>➡️</div></button>
 </div>)
 
 
