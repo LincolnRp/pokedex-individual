@@ -14,7 +14,7 @@ Tecnologias Utilizadas:
 - Estados
 - Tratamento de dados 
 
-deploy: 
+deploy: level-trousers.surge.sh
 
 Api: https://pokeapi.co/
 
