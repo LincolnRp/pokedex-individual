@@ -14,6 +14,8 @@ Tecnologias Utilizadas:
 - Estados
 - Tratamento de dados 
 
+deploy: 
+
 Api: https://pokeapi.co/
 
 
